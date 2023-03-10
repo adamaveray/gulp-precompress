@@ -1,7 +1,7 @@
 {
   "name": "@averay/gulp-precompress",
   "author": "Adam Averay (https://adamaveray.com.au/)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Gulp plugin to generate precompressed assets to avoid on-the-fly webserver compression.",
   "license": "MIT",
   "type": "module",
