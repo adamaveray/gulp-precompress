@@ -57,6 +57,10 @@ export default function precompress(options: Partial<Options> = {}): Transform {
               const compressedFile = file.clone({ contents: false });
               compressedFile.contents = newContents;
               compressedFile.extname += formatExts[format];
+              if (compressedFile.stat != null) {
+                // Update modification time
+                compressedFile.stat.atime = compressedFile.stat.mtime = compressedFile.stat.ctime = new Date();
+              }
               this.push(compressedFile);
             }
             resolve();
