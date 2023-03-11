@@ -4,6 +4,11 @@
   "version": "1.0.1",
   "description": "A Gulp plugin to generate precompressed assets to avoid on-the-fly webserver compression.",
   "license": "MIT",
+  "homepage": "https://github.com/adamaveray/gulp-precompress",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamaveray/gulp-precompress.git"
+  },
   "type": "module",
   "source": "./src/index.ts",
   "exports": "./dist/index.modern.mjs",
