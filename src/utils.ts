@@ -1,7 +1,6 @@
-import type { ConfiguredFormats, UnconfiguredFormats } from './types';
-import { Formats } from './types';
-import type { FormatOptions } from './types';
-import Vinyl from 'vinyl';
+import type Vinyl from 'vinyl';
+
+import { Formats, type ConfiguredFormats, type UnconfiguredFormats, type FormatOptions } from './types';
 
 const allFormats: Formats[] = Object.values(Formats);
 
@@ -12,11 +11,9 @@ export function normaliseFormatEntries(
 ): FormatEntry[] {
   const possibleEntries: (FormatEntry | undefined)[] = allFormats.map((format) => {
     const formatOptions = formats[format];
-    if (formatOptions === false || formatOptions == null) {
-      return undefined;
-    } else {
-      return [format, formatOptions === true ? defaults[format] : formatOptions];
-    }
+    return formatOptions === false || formatOptions == null
+      ? undefined
+      : [format, formatOptions === true ? defaults[format] : formatOptions];
   });
 
   return possibleEntries.filter((entry) => entry != null) as FormatEntry[];

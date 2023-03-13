@@ -1,8 +1,10 @@
-import { normaliseFormatEntries, touch } from '../src/utils';
 import { type Stats } from 'node:fs';
-import defaults from '../src/defaults';
-import { Formats } from '../src';
+
 import Vinyl from 'vinyl';
+
+import { Formats } from '../src';
+import defaults from '../src/defaults';
+import { normaliseFormatEntries, touch } from '../src/utils';
 
 describe('normalising format entries', () => {
   it('handles defaults', () => {
@@ -20,9 +22,10 @@ describe('normalising format entries', () => {
   });
 
   it('handles overrides', () => {
-    expect(normaliseFormatEntries({ brotli: true, gzip: { level: 9001 } }, defaults.formats)).toEqual([
+    const GZIP_LEVEL = 9001;
+    expect(normaliseFormatEntries({ brotli: true, gzip: { level: GZIP_LEVEL } }, defaults.formats)).toEqual([
       [Formats.BROTLI, defaults.formats[Formats.BROTLI]],
-      [Formats.GZIP, { level: 9001 }],
+      [Formats.GZIP, { level: GZIP_LEVEL }],
     ]);
   });
 

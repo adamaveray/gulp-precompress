@@ -1,4 +1,4 @@
-import type { BrotliOptions, ZlibOptions } from 'node:zlib';
+import { type BrotliOptions, type ZlibOptions } from 'node:zlib';
 
 export enum Formats {
   BROTLI = 'brotli',
@@ -11,8 +11,8 @@ export interface FormatOptions extends Record<Formats, any> {
 }
 
 export interface Compressor<TOpts> {
-  stream(stream: NodeJS.ReadableStream, options?: TOpts): NodeJS.ReadableStream;
-  buffer(buffer: Buffer, options?: TOpts): Buffer;
+  stream: (stream: NodeJS.ReadableStream, options?: TOpts) => NodeJS.ReadableStream;
+  buffer: (buffer: Buffer, options?: TOpts) => Buffer;
 }
 
 export type UnconfiguredFormats = {

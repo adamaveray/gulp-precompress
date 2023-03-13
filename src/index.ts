@@ -1,10 +1,10 @@
 import { Transform } from 'node:stream';
-import Vinyl from 'vinyl';
+
+import type Vinyl from 'vinyl';
 
 import compressors from './compressors';
 import defaultOptions from './defaults';
-import { Compressor, Formats } from './types';
-import type { Options } from './types';
+import { Formats, type Options, type Compressor } from './types';
 import { normaliseFormatEntries, touch } from './utils';
 
 export { Formats } from './types';

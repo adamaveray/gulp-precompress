@@ -1,7 +1,5 @@
 import Vinyl from 'vinyl';
 
-export {};
-
 interface Entry {
   path: string;
   contents: string;
@@ -18,24 +16,26 @@ function entrySorter(a: Entry, b: Entry): number {
 }
 
 expect.extend({
-  toMatchVinylFiles(received: any, expected: any): jest.CustomMatcherResult {
+  toMatchVinylFiles(received: unknown, expected: Vinyl[]): jest.CustomMatcherResult {
+    const { isNot = false } = this;
+
     if (!Array.isArray(received)) {
       return { pass: false, message: () => 'Value expected to be array.' };
     }
 
-    const nonVinylEntry = received.find((item) => !(item instanceof Vinyl));
+    const nonVinylEntry: unknown = received.find((item) => !(item instanceof Vinyl));
     if (nonVinylEntry != null) {
       return { pass: false, message: () => 'All values expected to be Vinyl files.' };
     }
 
-    const receivedEntries = getFileEntries(received).sort(entrySorter);
+    const receivedEntries = getFileEntries(received as Vinyl[]).sort(entrySorter);
     const expectedEntries = getFileEntries(expected).sort(entrySorter);
-    if (this.isNot) {
+    if (isNot) {
       expect(receivedEntries).not.toEqual(expectedEntries);
     } else {
       expect(receivedEntries).toEqual(expectedEntries);
     }
 
-    return { pass: !this.isNot, message: () => 'All value paths expected to match.' };
+    return { pass: !isNot, message: () => 'All value paths expected to match.' };
   },
 });

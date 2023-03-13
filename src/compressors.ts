@@ -1,8 +1,7 @@
+import { Stream } from 'node:stream';
 import zlib from 'node:zlib';
 
-import { Formats, FormatOptions } from './types';
-import type { Compressor } from './types';
-import { Stream } from 'node:stream';
+import { Formats, type Compressor, type FormatOptions } from './types';
 
 export default {
   [Formats.BROTLI]: {
