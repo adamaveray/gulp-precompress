@@ -5,7 +5,7 @@ import compressors from './compressors';
 import defaultOptions from './defaults';
 import { Compressor, Formats } from './types';
 import type { Options } from './types';
-import { normaliseFormatEntries } from './utils';
+import { normaliseFormatEntries, touch } from './utils';
 
 export { Formats } from './types';
 export type { Options } from './types';
@@ -57,10 +57,8 @@ export default function precompress(options: Partial<Options> = {}): Transform {
               const compressedFile = file.clone({ contents: false });
               compressedFile.contents = newContents;
               compressedFile.extname += formatExts[format];
-              if (compressedFile.stat != null) {
-                // Update modification time
-                compressedFile.stat.atime = compressedFile.stat.mtime = compressedFile.stat.ctime = new Date();
-              }
+              // Update modification time
+              touch(compressedFile, new Date());
               this.push(compressedFile);
             }
             resolve();

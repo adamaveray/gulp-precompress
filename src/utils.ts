@@ -1,6 +1,7 @@
 import type { ConfiguredFormats, UnconfiguredFormats } from './types';
 import { Formats } from './types';
 import type { FormatOptions } from './types';
+import Vinyl from 'vinyl';
 
 const allFormats: Formats[] = Object.values(Formats);
 
@@ -19,4 +20,14 @@ export function normaliseFormatEntries(
   });
 
   return possibleEntries.filter((entry) => entry != null) as FormatEntry[];
+}
+
+export function touch(file: Vinyl, date: Date): void {
+  if (file.stat == null) {
+    return;
+  }
+  file.stat.birthtime = date;
+  file.stat.atime = date;
+  file.stat.ctime = date;
+  file.stat.mtime = date;
 }
