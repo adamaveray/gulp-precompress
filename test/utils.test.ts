@@ -1,6 +1,8 @@
-import { normaliseFormatEntries } from '../src/utils';
+import { normaliseFormatEntries, touch } from '../src/utils';
+import { type Stats } from 'node:fs';
 import defaults from '../src/defaults';
 import { Formats } from '../src';
+import Vinyl from 'vinyl';
 
 describe('normalising format entries', () => {
   it('handles defaults', () => {
@@ -36,5 +38,27 @@ describe('normalising format entries', () => {
     expect(normaliseFormatEntries({ gzip: true }, defaults.formats)).toEqual([
       [Formats.GZIP, defaults.formats[Formats.GZIP]],
     ]);
+  });
+});
+
+describe('touching files', () => {
+  it('ignores files without stats', () => {
+    const file = new Vinyl();
+    touch(file, new Date());
+    expect(file.stat).toBeNull();
+  });
+
+  it('sets stats dates', () => {
+    const date = new Date('2000-01-01T00:00:00');
+
+    const file = new Vinyl();
+    file.stat = {} as Stats;
+    touch(file, date);
+
+    expect(file.stat).not.toBeUndefined();
+    expect(file.stat.atime).toStrictEqual(date);
+    expect(file.stat.mtime).toStrictEqual(date);
+    expect(file.stat.ctime).toStrictEqual(date);
+    expect(file.stat.birthtime).toStrictEqual(date);
   });
 });
